@@ -1,0 +1,523 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shein</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background: #f5f5f7;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            color: #1d1d1f;
+            padding-top: 20px;
+        }
+
+        .page-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .reward-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 1rem;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(10px);
+            border: 1px solid #1d1d1f33;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 10px 30px #1d1d1f1a, 0 1px 8px #1d1d1f33;
+            animation: cardFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translatey(0px); }
+            50% { transform: translatey(-10px); }
+        }
+
+        .app-logo-container {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #1d1d1f1a;
+            position: relative;
+        }
+
+        .app-logo {
+            width: 150px;
+            height: auto;
+            filter: drop-shadow(0 4px 12px #1d1d1f4d);
+            animation: logoShine 3s infinite;
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        @keyframes logoShine {
+            0% { filter: drop-shadow(0 4px 12px #1d1d1f4d); }
+            50% { filter: drop-shadow(0 8px 20px #1d1d1f80); }
+            100% { filter: drop-shadow(0 4px 12px #1d1d1f4d); }
+        }
+
+        .cash-text {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-top: 0.5rem;
+            color: #1d1d1f;
+            text-shadow: 0 4px 20px #1d1d1f4d;
+        }
+
+        .amount {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            color: #1d1d1f;
+            margin: 0rem 0 0rem 0;
+            text-shadow: 0 4px 20px #1d1d1f4d;
+            animation: amountPulse 2s infinite;
+        }
+
+        @keyframes amountPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .amount-subtext {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1d1d1f;
+            text-shadow: 0 2px 10px #1d1d1f4d;
+        }
+
+        .instructions-container {
+            margin: 1rem auto;
+            padding: 1rem;
+            background: #1d1d1f0d;
+            border-radius: 16px;
+            border: 1px solid #1d1d1f1a;
+        }
+
+        .instruction-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 8px 0;
+            font-size: 0.95rem;
+            color: #1d1d1f;
+            font-weight: 600;
+        }
+
+        .number {
+            background: #1d1d1f;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(29, 29, 31, 0.2);
+        }
+
+        .verd-logo {
+            width: 150px;
+            height: auto;
+            display: block;
+            margin: 0.5rem auto 0;
+        }
+
+        .instruction-item span {
+            text-transform: capitalize;
+        }
+
+        .underline {
+            text-decoration: underline;
+            text-decoration-color: #1d1d1f;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
+        }
+
+        .claim-button {
+            background: #1d1d1f;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            width: 100%;
+            max-width: 400px;
+            cursor: pointer;
+            margin: 1rem auto;
+            display: block;
+            box-shadow: 0 10px 30px #1d1d1f4d, 0 5px 15px #1d1d1f33;
+            transition: all 0.3s ease;
+        }
+
+        .claim-button:hover {
+            transform: translatey(-5px);
+            box-shadow: 0 15px 40px #1d1d1f66, 0 8px 20px #1d1d1f4d;
+        }
+
+        .trust-badge {
+            width: 100% !important;
+            height: auto !important;
+            margin-top: 0.5rem;
+            border-radius: 12px;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .trust-badge:hover {
+            opacity: 1;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px #1d1d1f33;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: #1d1d1f;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border: 1px solid #1d1d1f33;
+            transition: transform 0.3s ease;
+            max-width: 320px;
+            width: calc(100% - 2rem);
+        }
+
+        .notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            background: #1d1d1f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .notification-text {
+            color: #666;
+            font-size: 13px;
+        }
+
+        #nameAlert {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translatex(-50%) translatey(0);
+            background: rgba(255, 255, 255, 0.95);
+            color: #1d1d1f;
+            padding: 12px 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px #1d1d1f33;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            width: calc(100% - 2rem);
+            max-width: 320px;
+            backdrop-filter: blur(10px);
+            margin: 0 auto;
+            border: 1px solid #1d1d1f33;
+            animation: slideDown 0.3s ease-out;
+            display: none;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translatex(-50%) translatey(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translatex(-50%) translatey(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js" style="position:fixed;width:100%;height:100%;z-index:1"></div>
+    <div id="nameAlert">
+        <span style="font-size: 24px;">📱</span>
+        <div><span class="name">Olivia M.</span> claimed $1,000!</div>
+    </div>
+    <div class="page-container">
+        <div class="reward-card">
+            <div class="app-logo-container">
+                <img src="asset/sheinlogo.png" alt="Apple Logo" class="app-logo">
+                <div class="cash-text">SHEIN BONUS</div>
+
+            </div>
+            <div id="amount" class="amount">$700</div>
+            <div class="amount-subtext">deposited to you</div>
+            <div class="instructions-container">
+                <div class="instruction-item">
+                    <span class="number">1</span>
+                    <span>Click the Button Below</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="number">2</span>
+                    <span>Enter Your Email & Info</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="number">3</span>
+                    <span class="underline">Complete Recommended Deals</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="number">4</span>
+                    <span>Claim Reward & Repeat</span>
+                </div>
+            </div>
+            <div class="button-container">
+                <button id="claimButton" class="claim-button">Get Yours →</button>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particles.js configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#1d1d1f' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: false },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#1d1d1f',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 6,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // Names for the name alert
+        const NAMES = [
+            'John D.', 'Sarah M.', 'David L.', 'Emma W.', 'Michael R.',
+            'Jessica K.', 'Chris P.', 'Amanda S.', 'Ryan L.', 'Taylor G.',
+            'Ashley T.', 'Brandon M.', 'Nicole D.', 'Kevin W.', 'Samantha R.',
+            'Tyler K.', 'Lauren P.', 'Justin S.', 'Brittany L.', 'Andrew G.',
+            'Megan T.', 'Zachary M.', 'Rachel D.', 'Matthew W.', 'Stephanie R.',
+            'Joshua K.', 'Danielle P.', 'Nathan S.', 'Kayla L.', 'Jonathan G.',
+            'Alexis T.', 'Aaron M.', 'Hannah D.', 'Jacob W.', 'Courtney R.',
+            'Caleb K.', 'Morgan P.', 'Noah S.', 'Destiny L.', 'Logan G.',
+            'Madison T.', 'Hunter M.', 'Sydney D.', 'Mason W.', 'Jasmine R.',
+            'Connor K.', 'Haley P.', 'Ian S.', 'Gabrielle L.', 'Ethan G.'
+        ];
+
+        // Notification system
+        const notifications = [
+            {
+                icon: '👥',
+                title: 'Live Viewers',
+                text: '18 people are viewing this iPhone right now'
+            },
+            {
+                icon: '🎉',
+                title: 'Recent Orders',
+                text: '5 people ordered in the last 10 minutes'
+            },
+            {
+                icon: '📍',
+                title: 'Local Orders',
+                text: '3 people in your city just ordered'
+            },
+            {
+                icon: '🔥',
+                title: 'Trending',
+                text: 'iPhone 16 Pro is trending in your area'
+            },
+            {
+                icon: '⭐',
+                title: 'Top Rated',
+                text: '4.9/5 stars - Customer favorite'
+            },
+            {
+                icon: '🌍',
+                title: 'Global Interest',
+                text: 'Popular worldwide - 127 orders today'
+            },
+            {
+                icon: '🎯',
+                title: 'Limited Stock',
+                text: 'Only 12 units left in your area'
+            },
+            {
+                icon: '⏳',
+                title: 'Fast Shipping',
+                text: 'Order now for delivery by Friday'
+            },
+            {
+                icon: '📊',
+                title: 'Stock Alert',
+                text: 'Pro models are 73% sold out'
+            },
+            {
+                icon: '⏰',
+                title: 'Limited Time',
+                text: 'Pre-order special ends in 6 hours'
+            }
+        ];
+
+        // Counter animation function
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const currentValue = Math.floor(progress * (end - start) + start);
+                element.textContent = `$${currentValue}`;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Create notification function
+        function createNotification() {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            
+            // Randomly decide between name notification and regular notification
+            const isNameNotification = Math.random() > 0.5;
+            
+            if (isNameNotification) {
+                // Name notification
+                const randomName = NAMES[Math.floor(Math.random() * NAMES.length)];
+                notification.innerHTML = `
+                    <div class="notification-icon">📱</div>
+                    <div class="notification-content">
+                        <div class="notification-title">New Order</div>
+                        <div class="notification-text"><span class="name">${randomName}</span> claimed $1,000!</div>
+                    </div>
+                `;
+            } else {
+                // Regular notification
+                const randomNotification = notifications[Math.floor(Math.random() * notifications.length)];
+                notification.innerHTML = `
+                    <div class="notification-icon">${randomNotification.icon}</div>
+                    <div class="notification-content">
+                        <div class="notification-title">${randomNotification.title}</div>
+                        <div class="notification-text">${randomNotification.text}</div>
+                    </div>
+                `;
+            }
+            
+            document.body.appendChild(notification);
+            
+            // Trigger animation
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            // Remove notification after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
+        }
+
+        // Start notifications
+        function startNotifications() {
+            // Initial delay before first notification
+            setTimeout(() => {
+                createNotification();
+                // Show notifications every 8-12 seconds
+                setInterval(() => {
+                    createNotification();
+                }, Math.random() * 4000 + 8000);
+            }, 3000);
+        }
+
+        // Start count-up animation when page loads
+        window.addEventListener('load', function() {
+            const amountElement = document.getElementById('amount');
+            const amountText = amountElement.textContent;
+            const amountValue = parseInt(amountText.replace(/[^0-9]/g, ''));
+            animateValue(amountElement, 0, amountValue, 2000); // Animate from 0 to the amount value over 2 seconds
+            startNotifications(); // Start notifications
+        });
+
+        // Simple click handler
+        function handleClick() {
+            window.location.href = 'https://uplevelrewarrds.com/aff_c?offer_id=1146&aff_id=2143';
+        }
+
+        // Update claim button click handler
+        document.getElementById('claimButton').addEventListener('click', handleClick);
+    </script>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"d2adda74e94045a98c753a96f2071259","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body></html>
